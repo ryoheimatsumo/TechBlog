@@ -13,10 +13,6 @@ from blog_app import views as blog_app_views
 def index(request):
     return render(request,'login_app/index.html')
 
-@login_required
-def special(request):
-    return render(request,'blog_app/school_list.html')
-
 
 @login_required
 def user_logout(request):
