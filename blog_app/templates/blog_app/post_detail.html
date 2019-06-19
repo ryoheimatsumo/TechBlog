@@ -3,15 +3,12 @@
 {% block body_block %}
 
 <div class="jumbotron">
-  <h1>Welcome to Blog Detail Page</h1>
-  <h2>Blog details:</h2>
-  <p>{{post_detail.title}}</p>
+  <h1>{{post_detail.title}}</h1>
+  <h2>{{ post_detail.text|linebreaksbr }}</h2>
   <p>Author: {{post_detail.author}}</p>
   <p>Created date: {{post_detail.created_date}}</p>
-  <p>{{ post_detail.text|linebreaksbr }}</p>
-
 </div>
-{% if self.request.user == post_detail.author %}
+{% if request.user == post_detail.author %}
 <div class="container">
   <p><a class='btn btn-warning' href="{% url 'blog_app:update' pk=post_detail.pk %}">Update</a></p>
 </div>

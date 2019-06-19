@@ -21,8 +21,6 @@ from blog_app import views as blog_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', login_views.index,name='index'),
-    path('login/',include('login_app.urls')),
-    path('logout/',login_views.user_logout,name='logout'),
+    path('', include('login_app.urls')),
     path('blog_app/',include('blog_app.urls',namespace='blog_app'))
 ]
