@@ -24,6 +24,5 @@ urlpatterns = [
     path('', login_views.index,name='index'),
     path('login/',include('login_app.urls')),
     path('logout/',login_views.user_logout,name='logout'),
-    path('special/',login_views.special,name='special'),
     path('blog_app/',include('blog_app.urls',namespace='blog_app'))
-]
+    ]
