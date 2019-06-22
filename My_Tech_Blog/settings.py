@@ -140,3 +140,5 @@ MEDIA_URL='/media/'
 LOGIN_URL = '/login_app/user_login'
 LOGIN_REDIRECT_URL='/admin/'
 LOGOUT_REDIRECT_URL='/login_app/index'
+
+AUTH_USER_MODEL = "login_app.User"
