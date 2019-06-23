@@ -18,11 +18,13 @@ from django.urls import path
 from django.conf.urls import include
 from login_app import views as login_views
 from blog_app import views as blog_views
+from mypage_app import views as mypage_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', login_views.index,name='index'),
     path('login/',include('login_app.urls')),
     path('logout/',login_views.user_logout,name='logout'),
-    path('blog_app/',include('blog_app.urls',namespace='blog_app'))
+    path('blog_app/',include('blog_app.urls',namespace='blog_app')),
+    path('mypage_app/',include('mypage_app.urls',namespace='mypage_app'))
     ]

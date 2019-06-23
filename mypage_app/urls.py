@@ -1,5 +1,5 @@
 from django.urls import path
-from login_app import views
+from mypage_app import views
 
 # SET THE NAMESPACE!
 app_name = 'mypage_app'
