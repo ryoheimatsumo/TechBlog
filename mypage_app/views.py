@@ -4,14 +4,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect, resolve_url
 from django.views import generic
 from .forms import UserUpdateForm
-from login_app.models import User, UserProfileInfo
+# from login_app import models
 from django.views.generic import (DetailView,
                                     UpdateView)
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth import get_user_model
 
 
+User = get_user_model()
 
-
-
+@method_decorator(login_required, name='dispatch')
 class OnlyYouMixin(UserPassesTestMixin):
     raise_exception = True
 
@@ -19,10 +22,10 @@ class OnlyYouMixin(UserPassesTestMixin):
         user = self.request.user
         return user.pk == self.kwargs['pk'] or user.is_superuser
 
-
+@method_decorator(login_required, name='dispatch')
 class UserDetail(OnlyYouMixin, DetailView):
     context_object_name = 'user_detail'
-    model = User
+    model =User
     template_name = 'mypage_app/user_detail.html'
 
 

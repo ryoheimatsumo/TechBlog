@@ -11,12 +11,12 @@
               <li><a class="navbar-brand" href="{% url 'blog_app:list' %}">Posts</a></li>
               <li><a class="navbar-brand" href="{% url 'blog_app:create' %}">Create Posts</a></li>
               <li><a class="navbar-link" href="{% url 'admin:index' %}">Admin</a></li>
-              <li><a class="navbar-link" href="{% url 'mypage_app:user_detail' pk=request.user.pk %}">User Details</a></li>
+              <li><a class="navbar-link" href="{% url 'mypage_app:user_detail' user.pk %}">User Details</a></li>
               <li><a class="navbar-link" href="{% url 'logout' %}">Logout</a></li>
             </ul>
         </nav>
         <div class="container">
-          {% block body_block%}
+          {% block body_block %}
           {% endblock %}
         </div>
 
