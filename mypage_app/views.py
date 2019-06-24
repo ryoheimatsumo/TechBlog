@@ -23,7 +23,7 @@ class OnlyYouMixin(UserPassesTestMixin):
         return user.pk == self.kwargs['pk'] or user.is_superuser
 
 @method_decorator(login_required, name='dispatch')
-class UserDetail(OnlyYouMixin, DetailView):
+class UserDetail(DetailView):
     context_object_name = 'user_detail'
     model =User
     template_name = 'mypage_app/user_detail.html'
