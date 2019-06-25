@@ -8,4 +8,8 @@
   <h2>First Name: {{ user_detail.first_name }}<h2>
 </div>
 
+<div class="container">
+  <p><a class='btn btn-warning' href="{% url 'mypage_app:user_update' pk=request.user.pk %}">Update</a></p>
+</div>
+
 {% endblock %}

@@ -25,7 +25,7 @@ class OnlyYouMixin(UserPassesTestMixin):
 @method_decorator(login_required, name='dispatch')
 class UserDetail(DetailView):
     context_object_name = 'user_detail'
-    model =User
+    model = User
     template_name = 'mypage_app/user_detail.html'
 
 
