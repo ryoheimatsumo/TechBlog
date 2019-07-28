@@ -19,6 +19,8 @@ from django.conf.urls import include
 from login_app import views as login_views
 from blog_app import views as blog_views
 from mypage_app import views as mypage_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,3 +30,10 @@ urlpatterns = [
     path('blog_app/',include('blog_app.urls',namespace='blog_app')),
     path('mypage_app/',include('mypage_app.urls',namespace='mypage_app'))
     ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+    urlpatterns += staticfiles_urlpatterns()

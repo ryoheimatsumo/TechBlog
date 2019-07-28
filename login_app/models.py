@@ -5,6 +5,8 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.core.mail import send_mail
 from django.contrib.auth.base_user import BaseUserManager
+# from blog_app import models as blog_app_model
+
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -59,6 +61,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
     email = models.EmailField(_('email address'), blank=True)
+    # nice_posts = models.ManyToManyField(blog_app_model.Post, verbose_name='Nice Posts', blank=True)
+
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
@@ -109,7 +113,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 # Create your models here.
 class UserProfileInfo(models.Model):
 
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    user = models.OneToOneField(User,on_delete=models.CASCADE, related_name='user_profile')
 
     #additional
     portfolio_site = models.URLField(blank=True)

@@ -16,4 +16,20 @@
   <p><a class='btn btn-warning' href="{% url 'blog_app:delete' pk=post_detail.pk %}">Delete</a></p>
 </div>
 {% endif %}
+{% if request.user != post_detail.author %}
+<a class='btn btn-warning' href="{% url 'blog_app:like' pk=post_detail.pk %}">いいね！</a>{{ post_detail.like_num }}
+{% endif %}
+
+<a class="btn btn-warning" href="{% url 'blog_app:add_comment_to_post' post_detail.id %}">Add comment</a>
+
+{% for comment in post_detail.comments.all %}
+    <div class="container">
+        <div class="date">{{ comment.created_date }}</div>
+        <h3><strong>{{ comment.author }}</strong></h3>
+        <h3><p>{{ comment.text|linebreaks }}</p></h3><hr>
+    </div>
+{% empty %}
+    <h2>No comments here yet</h2>
+{% endfor %}
+
 {% endblock %}

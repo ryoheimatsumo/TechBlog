@@ -1,15 +1,76 @@
 {% extends "mypage_app/base.html" %}
 {% block body_block %}
 
-<div class="jumbotron">
-  <h2>User Name : {{ user_detail.username }}</h2>
-  <h2>Email : {{ user_detail.email }}</h2>
-  <h2>Last Name : {{ user_detail.last_name }}</h2>
-  <h2>First Name: {{ user_detail.first_name }}<h2>
+<div class="cp_tab">
+	<input type="radio" name="cp_tab" id="tab1_1" aria-controls="first_tab01" checked>
+	<label for="tab1_1">User Infromation</label>
+	<input type="radio" name="cp_tab" id="tab1_2" aria-controls="second_tab01">
+	<label for="tab1_2">Posts</label>
+	<input type="radio" name="cp_tab" id="tab1_3" aria-controls="third_tab01">
+	<label for="tab1_3">Comments</label>
+	<input type="radio" name="cp_tab" id="tab1_4" aria-controls="fourth_tab01">
+	<label for="tab1_4">Liked Posts</label>
+
+	<div class="cp_tabpanels">
+		<div id="first_tab01" class="cp_tabpanel">
+      <div class="jumbotron">
+        <h2>User Name : {{ user_detail.username }}</h2>
+        {% if request.user.pk == user_detail.pk %}
+        <h2>Email : {{ user_detail.email }}</h2>
+        <h2>Last Name : {{ user_detail.last_name }}</h2>
+        <h2>First Name: {{ user_detail.first_name }}<h2>
+        {% endif %}
+				{% if user_detail.user_profile.portfolio_site %}
+        <h2>Portfolio site : {{user_detail.user_profile.portfolio_site }}</h2>
+				{% endif %}
+				{% if user_detail.user_profile.profile_pic %}
+        <img src="{{ user_detail.user_profile.profile_pic.url }}" alt="Profile Picture" height="300" width="300">
+				{% endif %}
+      </div>
+
+      {% if request.user.pk == user_detail.pk %}
+      <div class="container">
+        <p><a class='btn btn-warning' href="{% url 'mypage_app:user_update' pk=request.user.pk %}">Update</a></p>
+      </div>
+      {% endif %}
+		</div>
+
+		<div id="second_tab01" class="cp_tabpanel">
+			<ol>
+			  {% for post in user_detail.posts.all %}
+			  <h2><li><a href="{% url 'blog_app:detail' post.id %}">{{post.title}}</a></li></h2>
+			  {% endfor %}
+			</ol>
+		</div>
+
+		<div id="third_tab01" class="cp_tabpanel">
+      {% for comment in user_detail.comments.all %}
+          <div class="container">
+						<h2><li>Post title:<a href="{% url 'blog_app:detail' comment.post.id %}">{{ comment.post.title }}</a></li></h2>
+            <h3><strong>{{ comment.author }}</strong></h3>
+            <h3><p>{{ comment.text|linebreaks }}</p></h3>
+						<h4>{{ comment.created_date }}</h4><hr>
+          </div>
+      {% empty %}
+        <h2>No comments here yet</h2>
+      {% endfor %}
+		</div>
+		<div id="fourth_tab01" class="cp_tabpanel">
+      {% for like in user_detail.favorite_posts.all %}
+          <div class="container">
+						<h2><li>Post title:<a href="{% url 'blog_app:detail' like.post.id %}">{{ like.post.title }}</a></li></h2>
+            <h3><strong>{{ like.post.author }}</strong></h3>
+            <h3><p>{{ like.post.text|linebreaks }}</p></h3>
+						<h4>{{ like.post.created_date }}</h4><hr>
+          </div>
+      {% empty %}
+          <h2>No posts are liked by you</h2>
+      {% endfor %}
+		</div>
+
+	</div>
 </div>
 
-<div class="container">
-  <p><a class='btn btn-warning' href="{% url 'mypage_app:user_update' pk=request.user.pk %}">Update</a></p>
-</div>
+
 
 {% endblock %}

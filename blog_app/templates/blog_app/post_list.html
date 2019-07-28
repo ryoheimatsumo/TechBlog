@@ -1,13 +1,18 @@
-
 {% extends "blog_app/blog_app_base.html"%}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'post_list.css' %}">
+{% endblock %}
 
 {%block body_block%}
 
 <h1>Find your favorite blogs</h1>
 <ol>
   {% for post in posts %}
-  <h2><li><a href="{{post.id}}">{{post.title}}</a></li></h2>
+  <h2><li><a href="{% url 'blog_app:detail' post.id %}">{{post.title}}</a></li></h2><hr>
   {% endfor %}
 </ol>
+
 
 {%endblock%}

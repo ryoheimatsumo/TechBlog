@@ -10,9 +10,11 @@ from django.views.generic import (DetailView,
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
+from login_app.models import UserProfileInfo
 
 
 User = get_user_model()
+profile = UserProfileInfo
 
 @method_decorator(login_required, name='dispatch')
 class OnlyYouMixin(UserPassesTestMixin):
@@ -29,6 +31,13 @@ class UserDetail(DetailView):
     template_name = 'mypage_app/user_detail.html'
 
 
+# @method_decorator(login_required, name='dispatch')
+# class UserProfileInfoDetail(DetailView):
+#     context_object_name = 'profileInfo_detail'
+#     model = UserProfileInfo
+#     template_name = 'mypage_app/user_detail.html'
+#
+#
 class UserUpdate(OnlyYouMixin,UpdateView):
     model = User
     form_class = UserUpdateForm

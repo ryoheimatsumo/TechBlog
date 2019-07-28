@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from blog_app import views as blog_app_views
 
 
+
 # Create your views here.
 def index(request):
     return render(request,'login_app/index.html')

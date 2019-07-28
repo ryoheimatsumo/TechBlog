@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'login_app',
     'blog_app',
-    'mypage_app'
+    'mypage_app',
+    'taggit',
+
 ]
 
 MIDDLEWARE = [

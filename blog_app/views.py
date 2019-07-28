@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import (View,TemplateView,
                                     ListView,DetailView,
                                     CreateView,UpdateView,DeleteView)
@@ -7,6 +7,7 @@ from . import models
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
+from django.shortcuts import redirect
 
 
 
@@ -57,3 +58,50 @@ class PostDeleteView(DeleteView):
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.filter(author=self.request.user)
+
+
+@method_decorator(login_required, name='dispatch')
+class CommentCreateView(CreateView):
+    fields = ('text',)
+    model = models.Comment
+    success_url = reverse_lazy("blog_app:detail")
+
+    def form_valid(self, form):
+        post_pk = self.kwargs['pk']
+        post = get_object_or_404(models.Post, pk=post_pk)
+        form.instance.author = self.request.user
+
+        # 紐づく記事を設定する
+        comment = form.save(commit=False)
+        comment.post = post
+        comment.save()
+
+        # 記事詳細にリダイレクト
+        return redirect('blog_app:detail', pk=post_pk)
+
+
+
+@login_required
+def like(request, *args, **kwargs):
+    post = models.Post.objects.get(id=kwargs['pk'])
+    is_like = models.Like.objects.filter(user=request.user).filter(post=post).count()
+    if post.like_num == None:
+        post.like_num == 0
+
+    # unlike
+    if is_like > 0:
+        liking = models.Like.objects.get(post_id=kwargs['pk'], user=request.user)
+        liking.delete()
+        post.like_num -= 1
+        post.save()
+        return redirect(reverse_lazy('blog_app:detail', kwargs={'pk': kwargs['pk']}))
+    # like
+
+
+    post.like_num += 1
+    post.save()
+    like = models.Like()
+    like.user = request.user
+    like.post = post
+    like.save()
+    return redirect(reverse_lazy('blog_app:detail', kwargs={'pk': kwargs['pk']}))
