@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.conf.urls import include
+from django.conf.urls import url,include
 from login_app import views as login_views
 from blog_app import views as blog_views
 from mypage_app import views as mypage_views
@@ -28,7 +28,9 @@ urlpatterns = [
     path('login/',include('login_app.urls')),
     path('logout/',login_views.user_logout,name='logout'),
     path('blog_app/',include('blog_app.urls',namespace='blog_app')),
-    path('mypage_app/',include('mypage_app.urls',namespace='mypage_app'))
+    path('mypage_app/',include('mypage_app.urls',namespace='mypage_app')),
+    path('tinymce/', include('tinymce.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     ]
 
 if settings.DEBUG:
@@ -37,3 +39,6 @@ if settings.DEBUG:
 if settings.DEBUG:
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
     urlpatterns += staticfiles_urlpatterns()
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
