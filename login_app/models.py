@@ -61,6 +61,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
     email = models.EmailField(_('email address'), blank=True)
+    follower_num = models.PositiveIntegerField(default=0)
+    follow_num = models.PositiveIntegerField(default=0)
     # nice_posts = models.ManyToManyField(blog_app_model.Post, verbose_name='Nice Posts', blank=True)
 
     is_staff = models.BooleanField(
@@ -109,6 +111,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
 
+    def get_followers(self):
+        relations = Relationship.objects.filter(follow=self)
+        return [relation.follower for relation in relations]
+
+
 
 # Create your models here.
 class UserProfileInfo(models.Model):
@@ -118,7 +125,19 @@ class UserProfileInfo(models.Model):
     #additional
     portfolio_site = models.URLField(blank=True)
 
+    introduce = models.TextField(
+        verbose_name='',
+        blank=True,
+        null=True,
+        max_length=1000,
+    )
+
     profile_pic = models.ImageField(upload_to='profile_pics',blank=True)
 
     def __str__(self):
         return self.user.username
+
+
+class Relationship(models.Model):
+    follow = models.ForeignKey(User, related_name='follows',on_delete=models.CASCADE)
+    follower = models.ForeignKey(User, related_name='followers',on_delete=models.CASCADE)

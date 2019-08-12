@@ -19,6 +19,8 @@
         <h2>Email : {{ user_detail.email }}</h2>
         <h2>Last Name : {{ user_detail.last_name }}</h2>
         <h2>First Name: {{ user_detail.first_name }}<h2>
+				<h2>My Introdution</h2>
+				<p>{{user_detail.user_profile.introduce }}<p>
         {% endif %}
 				{% if user_detail.user_profile.portfolio_site %}
         <h2>Portfolio site : {{user_detail.user_profile.portfolio_site }}</h2>
@@ -33,6 +35,9 @@
         <p><a class='btn btn-warning' href="{% url 'mypage_app:user_update' pk=request.user.pk %}">Update</a></p>
       </div>
       {% endif %}
+			{% if request.user.pk != user_detail.pk %}
+			<a class='btn btn-warning' href="{% url 'mypage_app:follow' pk=user_detail.pk %}">follow</a>
+			{% endif %}
 		</div>
 
 		<div id="second_tab01" class="cp_tabpanel">
