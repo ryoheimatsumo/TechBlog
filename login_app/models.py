@@ -139,5 +139,5 @@ class UserProfileInfo(models.Model):
 
 
 class Relationship(models.Model):
-    follow = models.ForeignKey(User, related_name='follows',on_delete=models.CASCADE)
-    follower = models.ForeignKey(User, related_name='followers',on_delete=models.CASCADE)
+    follow = models.ForeignKey(User,related_name='follows',on_delete=models.CASCADE)
+    follower = models.ForeignKey(User,related_name='followers',on_delete=models.CASCADE)

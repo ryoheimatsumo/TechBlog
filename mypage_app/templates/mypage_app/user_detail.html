@@ -10,6 +10,11 @@
 	<label for="tab1_3">Comments</label>
 	<input type="radio" name="cp_tab" id="tab1_4" aria-controls="fourth_tab01">
 	<label for="tab1_4">Liked Posts</label>
+	<input type="radio" name="cp_tab" id="tab1_5" aria-controls="fifth_tab01">
+	<label for="tab1_5">follow</label>
+	<input type="radio" name="cp_tab" id="tab1_6" aria-controls="sixth_tab01">
+	<label for="tab1_6">followers</label>
+
 
 	<div class="cp_tabpanels">
 		<div id="first_tab01" class="cp_tabpanel">
@@ -71,6 +76,24 @@
       {% empty %}
           <h2>No posts are liked by you</h2>
       {% endfor %}
+		</div>
+		<div id="fifth_tab01" class="cp_tabpanel">
+      {% for follow in user_detail.follows.all %}
+          <div class="container">
+						<h2><a href="{% url 'mypage_app:user_detail' follow.user.pk %}">{{ follow.username }}</a></h2>
+          </div>
+      {% empty %}
+          <h2>No Follows</h2>
+      {% endfor %}
+		</div>
+		<div id="sixth_tab01" class="cp_tabpanel">
+			{% for follower in user_detail.followers.all %}
+					<div class="container">
+						<h2><a href="{% url 'mypage_app:user_detail' follower.pk %}">{{ follower.username }}</h2>
+					</div>
+			{% empty %}
+					<h2>No Followers</h2>
+			{% endfor %}
 		</div>
 
 	</div>
